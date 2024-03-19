@@ -1,24 +1,427 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="memoryGame" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ThE-16-1AR">
+                                <rect key="frame" x="26.666666666666657" y="256" width="340" height="340"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="wax-sD-Q3U">
+                                        <rect key="frame" x="0.0" y="0.0" width="340" height="70"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UnQ-aY-paP">
+                                                <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="EYC-u3-WIk"/>
+                                                    <constraint firstAttribute="width" constant="70" id="dpb-zb-8KL"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap1:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BtH-NU-Di4"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EdY-7K-kkc">
+                                                <rect key="frame" x="90" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="70" id="Cjj-ry-bTt"/>
+                                                    <constraint firstAttribute="height" constant="70" id="nLW-eU-Syi"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap2:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tS5-a3-63P"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a4O-vJ-Ein">
+                                                <rect key="frame" x="180" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="ZMa-HL-fip"/>
+                                                    <constraint firstAttribute="width" constant="70" id="jfN-uG-WiY"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap3:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LvB-Ry-Ar7"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="anC-vM-bhe">
+                                                <rect key="frame" x="270" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="2jc-5W-zPd"/>
+                                                    <constraint firstAttribute="width" constant="70" id="phE-Ft-lGb"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap4:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xDi-GI-5Bp"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="BuB-3n-y4P"/>
+                                            <constraint firstAttribute="width" constant="340" id="Quq-3n-o9Q"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Vnt-Iv-uFc">
+                                        <rect key="frame" x="0.0" y="90" width="340" height="70"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjE-gB-f10">
+                                                <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="cOH-gO-J3F"/>
+                                                    <constraint firstAttribute="width" constant="70" id="nyZ-Ib-0mu"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap5:" destination="BYZ-38-t0r" eventType="touchUpInside" id="OsY-Bd-bKm"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bGG-GY-Du7">
+                                                <rect key="frame" x="90" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="cSI-8k-Usc"/>
+                                                    <constraint firstAttribute="width" constant="70" id="qf9-Tk-yXG"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap6:" destination="BYZ-38-t0r" eventType="touchUpInside" id="S3o-C6-h8l"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R0k-9b-pJk">
+                                                <rect key="frame" x="180" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="pVO-N5-man"/>
+                                                    <constraint firstAttribute="width" constant="70" id="vHy-7x-JEf"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap7:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vZC-R1-DFY"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rWu-ub-9XB">
+                                                <rect key="frame" x="270" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="70" id="Q8l-dE-2eV"/>
+                                                    <constraint firstAttribute="height" constant="70" id="Xge-Ih-j1q"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap8:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SMD-g3-uDH"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="340" id="K4e-si-TvM"/>
+                                            <constraint firstAttribute="height" constant="70" id="ykG-Vf-B9l"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="mVd-iN-YCq">
+                                        <rect key="frame" x="0.0" y="180" width="340" height="70"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rkT-OB-cw4">
+                                                <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="63i-P2-SVG"/>
+                                                    <constraint firstAttribute="width" constant="70" id="AtU-lQ-Ohr"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap9:" destination="BYZ-38-t0r" eventType="touchUpInside" id="o18-T1-vRm"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DAf-M3-Zby">
+                                                <rect key="frame" x="90" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="70" id="OFA-U7-l7K"/>
+                                                    <constraint firstAttribute="height" constant="70" id="wEM-Mb-Q2E"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap10:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EBg-AQ-Jrq"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BSA-ID-wj8">
+                                                <rect key="frame" x="180" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="VnI-rU-VS6"/>
+                                                    <constraint firstAttribute="width" constant="70" id="puX-F0-OCK"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap11:" destination="BYZ-38-t0r" eventType="touchUpInside" id="QuB-MD-ybj"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hVF-S3-Jg7">
+                                                <rect key="frame" x="270" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="70" id="ai4-2G-FHR"/>
+                                                    <constraint firstAttribute="height" constant="70" id="pLv-Sy-WDp"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap12:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Npy-vZ-Wne"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="340" id="ENi-xv-ozU"/>
+                                            <constraint firstAttribute="height" constant="70" id="GMw-vx-S5c"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="rYH-tz-ydO">
+                                        <rect key="frame" x="0.0" y="270" width="340" height="70"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="atJ-i3-act">
+                                                <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="70" id="nHp-Pq-ghj"/>
+                                                    <constraint firstAttribute="height" constant="70" id="s2f-ZB-Dky"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap13:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5RB-vE-pK8"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jbL-ZQ-hSj">
+                                                <rect key="frame" x="90" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="70" id="Eg8-uj-oCM"/>
+                                                    <constraint firstAttribute="height" constant="70" id="Vnd-Xr-JXl"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap14:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8r8-uw-FDj"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EZH-6f-Tbl">
+                                                <rect key="frame" x="180" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="70" id="cWL-ur-506"/>
+                                                    <constraint firstAttribute="width" constant="70" id="mB8-P4-qO1"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap15:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YWY-QC-EfE"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6bN-kQ-jGF">
+                                                <rect key="frame" x="270" y="0.0" width="70" height="70"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="70" id="Ahs-Uh-tvx"/>
+                                                    <constraint firstAttribute="height" constant="70" id="uUT-rp-He7"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain">
+                                                    <imageReference key="image" image="circle.fill" catalog="system" symbolScale="large"/>
+                                                    <backgroundConfiguration key="background">
+                                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </backgroundConfiguration>
+                                                    <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
+                                                </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="btnTap16:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bwl-62-YHj"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="gun-g7-czS"/>
+                                            <constraint firstAttribute="width" constant="340" id="tCH-tn-uhC"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="340" id="QMi-Av-kQW"/>
+                                    <constraint firstAttribute="height" constant="340" id="vFp-ms-oM9"/>
+                                </constraints>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q18-He-C1K">
+                                <rect key="frame" x="26.666666666666671" y="119" width="73" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CrE-K5-MJN">
+                                <rect key="frame" x="26.666666666666664" y="151" width="28.666666666666664" height="51.333333333333343"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="43"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player 2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2tE-Gp-AGa">
+                                <rect key="frame" x="291" y="118" width="75.666666666666686" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cmV-SY-fPt">
+                                <rect key="frame" x="338" y="150" width="28.666666666666686" height="51.333333333333343"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="43"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ThE-16-1AR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3t5-U2-X42"/>
+                            <constraint firstItem="Q18-He-C1K" firstAttribute="leading" secondItem="UnQ-aY-paP" secondAttribute="leading" id="DLb-BB-Uac"/>
+                            <constraint firstItem="UnQ-aY-paP" firstAttribute="top" secondItem="Q18-He-C1K" secondAttribute="bottom" constant="113" id="OTq-CQ-p8C"/>
+                            <constraint firstItem="cmV-SY-fPt" firstAttribute="trailing" secondItem="anC-vM-bhe" secondAttribute="trailing" id="Rse-ui-2Vu"/>
+                            <constraint firstItem="cmV-SY-fPt" firstAttribute="top" secondItem="2tE-Gp-AGa" secondAttribute="bottom" constant="8" symbolic="YES" id="TUe-qr-mP9"/>
+                            <constraint firstItem="CrE-K5-MJN" firstAttribute="top" secondItem="Q18-He-C1K" secondAttribute="bottom" constant="8" symbolic="YES" id="Usk-3s-fgc"/>
+                            <constraint firstItem="ThE-16-1AR" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="s5q-Cf-Nhf"/>
+                            <constraint firstItem="2tE-Gp-AGa" firstAttribute="trailing" secondItem="anC-vM-bhe" secondAttribute="trailing" id="t0g-jg-i3U"/>
+                            <constraint firstItem="CrE-K5-MJN" firstAttribute="leading" secondItem="Q18-He-C1K" secondAttribute="leading" id="w5f-i3-1hb"/>
+                            <constraint firstItem="anC-vM-bhe" firstAttribute="top" secondItem="2tE-Gp-AGa" secondAttribute="bottom" constant="114" id="yOQ-JL-4je"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="btn1" destination="UnQ-aY-paP" id="tyG-46-5Mj"/>
+                        <outlet property="btn10" destination="DAf-M3-Zby" id="xZ9-cj-Y5p"/>
+                        <outlet property="btn11" destination="BSA-ID-wj8" id="cnY-lZ-9Xh"/>
+                        <outlet property="btn12" destination="hVF-S3-Jg7" id="smf-de-uSA"/>
+                        <outlet property="btn13" destination="atJ-i3-act" id="5Um-NP-2vZ"/>
+                        <outlet property="btn14" destination="jbL-ZQ-hSj" id="UfL-wS-Njs"/>
+                        <outlet property="btn15" destination="EZH-6f-Tbl" id="Tn1-15-Dig"/>
+                        <outlet property="btn16" destination="6bN-kQ-jGF" id="7ny-QD-snC"/>
+                        <outlet property="btn2" destination="EdY-7K-kkc" id="5X0-Pz-QlT"/>
+                        <outlet property="btn3" destination="a4O-vJ-Ein" id="Twf-3W-TR7"/>
+                        <outlet property="btn4" destination="anC-vM-bhe" id="qnL-zb-Itj"/>
+                        <outlet property="btn5" destination="bjE-gB-f10" id="vzY-7c-GQ5"/>
+                        <outlet property="btn6" destination="bGG-GY-Du7" id="UQB-a5-M60"/>
+                        <outlet property="btn7" destination="R0k-9b-pJk" id="Au9-pp-UwF"/>
+                        <outlet property="btn8" destination="rWu-ub-9XB" id="XTB-e9-Dcf"/>
+                        <outlet property="btn9" destination="rkT-OB-cw4" id="2B6-dG-nzJ"/>
+                        <outlet property="player1Label" destination="Q18-He-C1K" id="eYK-Ns-DMo"/>
+                        <outlet property="player2Label" destination="2tE-Gp-AGa" id="ER7-wo-HC6"/>
+                        <outlet property="scoreLabelPlayer1" destination="CrE-K5-MJN" id="veX-Or-jh7"/>
+                        <outlet property="scoreLabelPlayer2" destination="cmV-SY-fPt" id="gan-BB-dIG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="102" y="4"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="circle.fill" catalog="system" width="128" height="123"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
