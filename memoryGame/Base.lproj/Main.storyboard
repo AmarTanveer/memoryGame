@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qie-j7-ivP">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -390,6 +391,7 @@
                             <constraint firstItem="anC-vM-bhe" firstAttribute="top" secondItem="2tE-Gp-AGa" secondAttribute="bottom" constant="114" id="yOQ-JL-4je"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="7Zw-IP-akm"/>
                     <connections>
                         <outlet property="btn1" destination="UnQ-aY-paP" id="tyG-46-5Mj"/>
                         <outlet property="btn10" destination="DAf-M3-Zby" id="xZ9-cj-Y5p"/>
@@ -411,15 +413,107 @@
                         <outlet property="player2Label" destination="2tE-Gp-AGa" id="ER7-wo-HC6"/>
                         <outlet property="scoreLabelPlayer1" destination="CrE-K5-MJN" id="veX-Or-jh7"/>
                         <outlet property="scoreLabelPlayer2" destination="cmV-SY-fPt" id="gan-BB-dIG"/>
+                        <segue destination="S0N-Ed-Yns" kind="unwind" identifier="unwindToHome" unwindAction="unwinding:" id="9VB-6V-t4A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="S0N-Ed-Yns" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="102" y="4"/>
+            <point key="canvasLocation" x="1028.2442748091603" y="3.5211267605633805"/>
+        </scene>
+        <!--Home View Controller-->
+        <scene sceneID="PQG-GL-2Tm">
+            <objects>
+                <viewController storyboardIdentifier="homeViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="49w-hd-ZJp" customClass="homeViewController" customModule="memoryGame" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FZn-dX-JHG">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="REMEMBER your tiles!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RPC-Eu-I79">
+                                <rect key="frame" x="30.666666666666657" y="154.33333333333331" width="331.66666666666674" height="143.33333333333331"/>
+                                <color key="backgroundColor" name="AccentColor"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="60"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                                <size key="shadowOffset" width="0.0" height="0.0"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qpf-qP-75l">
+                                <rect key="frame" x="100" y="431" width="193" height="44"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Player V Player">
+                                    <backgroundConfiguration key="background" strokeWidth="1">
+                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </backgroundConfiguration>
+                                    <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="25"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="playerVplayerBtn:" destination="49w-hd-ZJp" eventType="touchUpInside" id="3b7-w9-8ts"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1A0-LI-Zhw">
+                                <rect key="frame" x="100" y="497" width="193" height="44"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Player V CPU">
+                                    <backgroundConfiguration key="background" strokeWidth="1">
+                                        <color key="strokeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </backgroundConfiguration>
+                                    <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="25"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="playerVcpuBtn:" destination="49w-hd-ZJp" eventType="touchUpInside" id="q9H-D1-7Xl"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose your game mode:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c6C-RG-C1f">
+                                <rect key="frame" x="50.333333333333343" y="367" width="292.33333333333326" height="32.333333333333314"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="27"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="9c6-zG-3AT"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="c6C-RG-C1f" firstAttribute="centerX" secondItem="FZn-dX-JHG" secondAttribute="centerX" id="1uq-Vj-Tpt"/>
+                            <constraint firstItem="qpf-qP-75l" firstAttribute="top" secondItem="RPC-Eu-I79" secondAttribute="bottom" constant="133.33333333333337" id="3gh-Q9-1XH"/>
+                            <constraint firstItem="1A0-LI-Zhw" firstAttribute="top" secondItem="qpf-qP-75l" secondAttribute="bottom" constant="22" id="7QW-lQ-xCX"/>
+                            <constraint firstItem="RPC-Eu-I79" firstAttribute="centerY" secondItem="FZn-dX-JHG" secondAttribute="centerY" constant="-200" id="Cpm-Vd-RgA"/>
+                            <constraint firstItem="c6C-RG-C1f" firstAttribute="top" secondItem="RPC-Eu-I79" secondAttribute="bottom" constant="69.333333333333371" id="Mua-Pf-eGb"/>
+                            <constraint firstItem="RPC-Eu-I79" firstAttribute="centerX" secondItem="FZn-dX-JHG" secondAttribute="centerX" id="bZ1-mM-EYr"/>
+                            <constraint firstItem="1A0-LI-Zhw" firstAttribute="centerX" secondItem="FZn-dX-JHG" secondAttribute="centerX" id="nMO-Pj-KYc"/>
+                            <constraint firstItem="qpf-qP-75l" firstAttribute="centerX" secondItem="FZn-dX-JHG" secondAttribute="centerX" id="x4P-mW-bF6"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="HoM-HH-jTQ"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="toGame" id="ssN-ZJ-X3g"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xE9-lV-zyO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="272.51908396946561" y="3.5211267605633805"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="i4D-Pp-hOV">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="qie-j7-ivP" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="roa-hm-FaW">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="49w-hd-ZJp" kind="relationship" relationship="rootViewController" id="10c-ZW-e4x"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dqX-Vi-M6J" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-654.19847328244271" y="3.5211267605633805"/>
         </scene>
     </scenes>
     <resources>
         <image name="circle.fill" catalog="system" width="128" height="123"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

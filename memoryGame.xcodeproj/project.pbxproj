@@ -13,6 +13,7 @@
 		134135BF2BA6DDA1006258B1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 134135BD2BA6DDA1006258B1 /* Main.storyboard */; };
 		134135C12BA6DDA2006258B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 134135C02BA6DDA2006258B1 /* Assets.xcassets */; };
 		134135C42BA6DDA2006258B1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 134135C22BA6DDA2006258B1 /* LaunchScreen.storyboard */; };
+		13A872DB2BAEFEC70037F16B /* homeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A872DA2BAEFEC70037F16B /* homeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		134135C02BA6DDA2006258B1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		134135C32BA6DDA2006258B1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		134135C52BA6DDA2006258B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		13A872DA2BAEFEC70037F16B /* homeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				134135B72BA6DDA1006258B1 /* AppDelegate.swift */,
 				134135B92BA6DDA1006258B1 /* SceneDelegate.swift */,
 				134135BB2BA6DDA1006258B1 /* ViewController.swift */,
+				13A872DA2BAEFEC70037F16B /* homeViewController.swift */,
 				134135BD2BA6DDA1006258B1 /* Main.storyboard */,
 				134135C02BA6DDA2006258B1 /* Assets.xcassets */,
 				134135C22BA6DDA2006258B1 /* LaunchScreen.storyboard */,
@@ -141,6 +144,7 @@
 				134135BC2BA6DDA1006258B1 /* ViewController.swift in Sources */,
 				134135B82BA6DDA1006258B1 /* AppDelegate.swift in Sources */,
 				134135BA2BA6DDA1006258B1 /* SceneDelegate.swift in Sources */,
+				13A872DB2BAEFEC70037F16B /* homeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
