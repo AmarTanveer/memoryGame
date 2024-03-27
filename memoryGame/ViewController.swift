@@ -35,8 +35,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var btn15: UIButton!
     @IBOutlet weak var btn16: UIButton!
     
-    //TODO: remove the error of clicking the same tile twice which increases the score of the player who does the clicking
-    
     var imagesArray = [UIImage(systemName: "square"), UIImage(systemName: "star"), UIImage(systemName: "house"), UIImage(systemName: "airplane"), UIImage(systemName: "square"), UIImage(systemName: "star"), UIImage(systemName: "house"), UIImage(systemName: "airplane"),UIImage(systemName: "square"), UIImage(systemName: "star"), UIImage(systemName: "house"), UIImage(systemName: "airplane"), UIImage(systemName: "square"), UIImage(systemName: "star"), UIImage(systemName: "house"), UIImage(systemName: "airplane")]
     
     var numberOftaps = 0
@@ -54,7 +52,11 @@ class ViewController: UIViewController {
     var winner = ""
     var totalHides = 0
     var gameType = "pvp"
-    var notHiddenTiles = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+    var matchedTiles = Set<Int>()
+    var lastClickedBtn: Int!
+    var isTurnChanged = false
+  
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,11 +91,13 @@ class ViewController: UIViewController {
     func checkTheTurn() {
         switch isPlayer1Turn {
         case true:
+            isTurnChanged = true
             player1Label.textColor = .red
             scoreLabelPlayer1.textColor = .red
             player2Label.textColor = .black
             scoreLabelPlayer2.textColor = .black
         case false:
+            isTurnChanged = true
             player2Label.textColor = .red
             scoreLabelPlayer2.textColor = .red
             player1Label.textColor = .black
@@ -146,12 +150,8 @@ class ViewController: UIViewController {
             self.checkTheTurn()
         }
         if (gameType == "pvc") {
-            if let index = notHiddenTiles.firstIndex(of: btnTapped1) {
-                notHiddenTiles.remove(at: index)
-            }
-            if let index = notHiddenTiles.firstIndex(of: btnTapped2) {
-                notHiddenTiles.remove(at: index)
-            }
+            matchedTiles.insert(btnTapped1)
+            matchedTiles.insert(btnTapped2)
         }
     }
     
@@ -188,7 +188,7 @@ class ViewController: UIViewController {
         repeat {
             randomm = generateRandomNo()
         }
-        while notHiddenTiles.contains(randomm) == false
+        while matchedTiles.contains(randomm)
                 
         return randomm
     }
@@ -197,14 +197,11 @@ class ViewController: UIViewController {
         if isCpuTurn {
             
             let cpuTappedButton1 = generateRandomCPUclicks()
-            if let index = notHiddenTiles.firstIndex(of: cpuTappedButton1) {
-                notHiddenTiles.remove(at: index)
-            }
+            var cpuTappedButton2: Int
+            repeat {
+                cpuTappedButton2 = generateRandomCPUclicks()
+            } while cpuTappedButton1 == cpuTappedButton2
             
-            let cpuTappedButton2 = generateRandomCPUclicks()
-            if let index = notHiddenTiles.firstIndex(of: cpuTappedButton2) {
-                notHiddenTiles.remove(at: index)
-            }
             
             btnTapped1 = cpuTappedButton1
             btnTapped2 = cpuTappedButton2
@@ -230,6 +227,8 @@ class ViewController: UIViewController {
                 }
                 scoreCPU += 1
                 showScoreOfPlayers()
+                matchedTiles.insert(btnTapped1)
+                matchedTiles.insert(btnTapped2)
                 
             }
             
@@ -255,932 +254,226 @@ class ViewController: UIViewController {
         
     }
     
-    @IBAction func btnTap1(_ sender: UIButton) {
-        
-        btnNumber = 0
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
+    
+    func playerPlay(buttonNumber: Int) {
+    
+            if numberOftaps < 2 {
+                buttons[buttonNumber].setImage(imagesArray[buttonNumber], for: .normal)
+                UIView.transition(with: buttons[buttonNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
+                numberOftaps += 1
                 
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
+                if isPlayer1Turn {
                     
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-            } else {
-                if (gameType == "pvp") {
                     if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
+                        lastClickedBtn = buttonNumber
+                        btnTapped1 = buttonNumber
+                        firstTappedImage = imagesArray[buttonNumber]
                     }
                     if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
+                        lastClickedBtn = buttonNumber
+                        btnTapped2 = buttonNumber
+                        secondTappedImage = imagesArray[buttonNumber]
+                        isPlayer1Turn = false
                         if firstTappedImage.isEqual(secondTappedImage) {
                             hide()
-                            scorePlayer2 += 1
+                            scorePlayer1 += 1
                             showScoreOfPlayers()
                         } else {
-                            
                             flipBack()
+                        }
+                        
+                        if gameType == "pvc" && totalHides < 8 {
+                            isCpuTurn = true
+                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
+                                self.CpuPlay()
+                            }
+                        }
+                    }
+                } else {
+                    if (gameType == "pvp") {
+                        if numberOftaps == 1 {
+                            lastClickedBtn = buttonNumber
+                            btnTapped1 = buttonNumber
+                            firstTappedImage = imagesArray[buttonNumber]
+                        }
+                        if numberOftaps == 2 {
+                            lastClickedBtn = buttonNumber
+                            btnTapped2 = buttonNumber
+                            secondTappedImage = imagesArray[buttonNumber]
+                            isPlayer1Turn = true
+                            if firstTappedImage.isEqual(secondTappedImage) {
+                                hide()
+                                scorePlayer2 += 1
+                                showScoreOfPlayers()
+                            } else {
+                                
+                                flipBack()
+                            }
                         }
                     }
                 }
             }
         }
-    }
     
+    
+    @IBAction func btnTap1(_ sender: UIButton) {
+        btnNumber = 0
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        }
+    }
     @IBAction func btnTap2(_ sender: UIButton) {
-        
         btnNumber = 1
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
-                
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
-                    
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-                
-            } else {
-                if (gameType == "pvp") {
-                    if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
-                    }
-                    if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
-                        if firstTappedImage.isEqual(secondTappedImage) {
-                            hide()
-                            scorePlayer2 += 1
-                            showScoreOfPlayers()
-                        } else {
-                            
-                            flipBack()
-                        }
-                    }
-                }
-            }
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
         }
     }
     @IBAction func btnTap3(_ sender: UIButton) {
-        
         btnNumber = 2
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
-                
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
-                    
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-                
-            } else {
-                if (gameType == "pvp") {
-                    if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
-                    }
-                    if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
-                        if firstTappedImage.isEqual(secondTappedImage) {
-                            hide()
-                            scorePlayer2 += 1
-                            showScoreOfPlayers()
-                        } else {
-                            
-                            flipBack()
-                        }
-                    }
-                }
-            }
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
         }
     }
     @IBAction func btnTap4(_ sender: UIButton) {
-        
         btnNumber = 3
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
-                
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
-                    
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-                
-            } else {
-                if (gameType == "pvp") {
-                    if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
-                    }
-                    if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
-                        if firstTappedImage.isEqual(secondTappedImage) {
-                            hide()
-                            scorePlayer2 += 1
-                            showScoreOfPlayers()
-                        } else {
-                            
-                            flipBack()
-                        }
-                    }
-                }
-            }
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
         }
     }
     @IBAction func btnTap5(_ sender: UIButton) {
-        
         btnNumber = 4
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
-                
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
-                    
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-                
-            } else {
-                if (gameType == "pvp") {
-                    if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
-                    }
-                    if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
-                        if firstTappedImage.isEqual(secondTappedImage) {
-                            hide()
-                            scorePlayer2 += 1
-                            showScoreOfPlayers()
-                        } else {
-                            
-                            flipBack()
-                        }
-                    }
-                }
-            }
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
         }
     }
     @IBAction func btnTap6(_ sender: UIButton) {
-        
         btnNumber = 5
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
-                
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
-                    
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-                
-            } else {
-                if (gameType == "pvp") {
-                    if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
-                    }
-                    if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
-                        if firstTappedImage.isEqual(secondTappedImage) {
-                            hide()
-                            scorePlayer2 += 1
-                            showScoreOfPlayers()
-                        } else {
-                            
-                            flipBack()
-                        }
-                    }
-                }
-            }
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
         }
     }
     @IBAction func btnTap7(_ sender: UIButton) {
-        
         btnNumber = 6
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
-                
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
-                    
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-                
-            } else {
-                if (gameType == "pvp") {
-                    if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
-                    }
-                    if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
-                        if firstTappedImage.isEqual(secondTappedImage) {
-                            hide()
-                            scorePlayer2 += 1
-                            showScoreOfPlayers()
-                        } else {
-                            
-                            flipBack()
-                        }
-                    }
-                }
-            }
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
         }
     }
     @IBAction func btnTap8(_ sender: UIButton) {
-        
         btnNumber = 7
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
-                
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
-                    
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-                
-            } else {
-                if (gameType == "pvp") {
-                    if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
-                    }
-                    if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
-                        if firstTappedImage.isEqual(secondTappedImage) {
-                            hide()
-                            scorePlayer2 += 1
-                            showScoreOfPlayers()
-                        } else {
-                            
-                            flipBack()
-                        }
-                    }
-                }
-            }
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
         }
     }
     @IBAction func btnTap9(_ sender: UIButton) {
-        
         btnNumber = 8
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
-                
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
-                    
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-                
-            } else {
-                if (gameType == "pvp") {
-                    if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
-                    }
-                    if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
-                        if firstTappedImage.isEqual(secondTappedImage) {
-                            hide()
-                            scorePlayer2 += 1
-                            showScoreOfPlayers()
-                        } else {
-                            
-                            flipBack()
-                        }
-                    }
-                }
-            }
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
         }
     }
     @IBAction func btnTap10(_ sender: UIButton) {
-        
         btnNumber = 9
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
-                
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
-                    
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-                
-            } else {
-                if (gameType == "pvp") {
-                    if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
-                    }
-                    if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
-                        if firstTappedImage.isEqual(secondTappedImage) {
-                            hide()
-                            scorePlayer2 += 1
-                            showScoreOfPlayers()
-                        } else {
-                            
-                            flipBack()
-                        }
-                    }
-                }
-            }
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
         }
     }
     @IBAction func btnTap11(_ sender: UIButton) {
-        
         btnNumber = 10
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
-                
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
-                    
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-                
-            } else {
-                if (gameType == "pvp") {
-                    if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
-                    }
-                    if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
-                        if firstTappedImage.isEqual(secondTappedImage) {
-                            hide()
-                            scorePlayer2 += 1
-                            showScoreOfPlayers()
-                        } else {
-                            
-                            flipBack()
-                        }
-                    }
-                }
-            }
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
         }
     }
     @IBAction func btnTap12(_ sender: UIButton) {
-        
         btnNumber = 11
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
-                
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
-                    
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-                
-            } else {
-                if (gameType == "pvp") {
-                    if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
-                    }
-                    if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
-                        if firstTappedImage.isEqual(secondTappedImage) {
-                            hide()
-                            scorePlayer2 += 1
-                            showScoreOfPlayers()
-                        } else {
-                            
-                            flipBack()
-                        }
-                    }
-                }
-            }
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
         }
     }
     @IBAction func btnTap13(_ sender: UIButton) {
-        
         btnNumber = 12
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
-                
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
-                    
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-                
-            } else {
-                if (gameType == "pvp") {
-                    if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
-                    }
-                    if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
-                        if firstTappedImage.isEqual(secondTappedImage) {
-                            hide()
-                            scorePlayer2 += 1
-                            showScoreOfPlayers()
-                        } else {
-                            
-                            flipBack()
-                        }
-                    }
-                }
-            }
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
         }
     }
     @IBAction func btnTap14(_ sender: UIButton) {
-        
         btnNumber = 13
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
-                
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
-                    
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-                
-            } else {
-                if (gameType == "pvp") {
-                    if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
-                    }
-                    if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
-                        if firstTappedImage.isEqual(secondTappedImage) {
-                            hide()
-                            scorePlayer2 += 1
-                            showScoreOfPlayers()
-                        } else {
-                            
-                            flipBack()
-                        }
-                    }
-                }
-            }
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
         }
     }
     @IBAction func btnTap15(_ sender: UIButton) {
-        
         btnNumber = 14
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
-                
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
-                    
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-                
-            } else {
-                if (gameType == "pvp") {
-                    if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
-                    }
-                    if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
-                        if firstTappedImage.isEqual(secondTappedImage) {
-                            hide()
-                            scorePlayer2 += 1
-                            showScoreOfPlayers()
-                        } else {
-                            
-                            flipBack()
-                        }
-                    }
-                }
-            }
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
         }
     }
     @IBAction func btnTap16(_ sender: UIButton) {
-        
         btnNumber = 15
-        if numberOftaps < 2 {
-            buttons[btnNumber].setImage(imagesArray[btnNumber], for: .normal)
-            UIView.transition(with: buttons[btnNumber], duration: 0.3, options: .transitionFlipFromLeft, animations: nil)
-            numberOftaps += 1
-            
-            if isPlayer1Turn {
-                
-                if numberOftaps == 1 {
-                    btnTapped1 = btnNumber
-                    firstTappedImage = imagesArray[btnNumber]
-                }
-                if numberOftaps == 2 {
-                    
-                    btnTapped2 = btnNumber
-                    secondTappedImage = imagesArray[btnNumber]
-                    isPlayer1Turn = false
-                    if firstTappedImage.isEqual(secondTappedImage) {
-                        hide()
-                        scorePlayer1 += 1
-                        showScoreOfPlayers()
-                    } else {
-                        flipBack()
-                    }
-                    
-                    if gameType == "pvc" {
-                        isCpuTurn = true
-                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-                            self.CpuPlay()
-                        }
-                    }
-                }
-                
-            } else {
-                if (gameType == "pvp") {
-                    if numberOftaps == 1 {
-                        btnTapped1 = btnNumber
-                        firstTappedImage = imagesArray[btnNumber]
-                    }
-                    if numberOftaps == 2 {
-                        btnTapped2 = btnNumber
-                        secondTappedImage = imagesArray[btnNumber]
-                        isPlayer1Turn = true
-                        if firstTappedImage.isEqual(secondTappedImage) {
-                            hide()
-                            scorePlayer2 += 1
-                            showScoreOfPlayers()
-                        } else {
-                            
-                            flipBack()
-                        }
-                    }
-                }
-            }
+        if lastClickedBtn != btnNumber {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
+        } else if isTurnChanged {
+            isTurnChanged = false
+            playerPlay(buttonNumber: btnNumber)
         }
     }
     
