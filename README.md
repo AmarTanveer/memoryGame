@@ -17,6 +17,7 @@ Further enhancements may include additional game modes, customizable difficulty 
 **UPDATE:**
 Added two more game themes: 1. Jungle theme 2. Ice-creams theme
 
+
 **You can checkout the gamplay down below:**
 
 https://github.com/AmarTanveer/memoryGame/assets/98050691/50efca38-bddd-4627-8012-84eb9e9852bb
