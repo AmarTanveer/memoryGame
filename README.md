@@ -4,9 +4,6 @@ With this project, I aimed to create a fun and interactive "Memory Game" app for
 ***Goal:***
 The goal was to provide users with an engaging gaming experience that challenges their memory and concentration skills.
 
-***Impact:***
-The final release of the app impacted hundreds of users, providing them with hours of entertainment and mental stimulation.
-
 ***Key Features:***
 Users can choose between player-vs-player (PvP) and player-vs-CPU (PvC) modes.
 I've implemented a smart CPU player for PvC mode to offer a challenging single-player experience.
